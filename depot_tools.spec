@@ -18,12 +18,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Chromium uses a package of scripts, the depot_tools, to manage
 interaction with the Chromium source code repository and the Chromium
-development process. It contains the following utilities: gclient:
-Meta-checkout tool managing both subversion and git checkouts. It is
-similar to repo tool except that it works on linux, mac and windows
-and supports both svn and git. On the other hand, gclient doesn't
-integrate any code review functionality.
+development process. It contains the following utilities:
 
+- gclient: Meta-checkout tool managing both subversion and git
+  checkouts. It is similar to repo tool except that it works on Linux,
+  OS X, and Windows and supports both svn and git. On the other hand,
+  gclient doesn't integrate any code review functionality.
 - gcl: Rietveld code review tool for subversion. The gcl tool runs
   presubmit scripts.
 - git-cl: Rietveld code review tool for git. The git-cl tool runs
@@ -31,6 +31,7 @@ integrate any code review functionality.
 - hammer: (Obsolete) Wrapper script for building Chromium with the
   SCons software construction tool.
 - drover: Quickly revert svn commits.
+- cpplint.py: Checks for C++ style compliance.
 - presubmit_support.py: Runs PRESUBMIT.py presubmit checks.
 - repo: The repo tool.
 - trychange.py: Try server tool. It is wrapped by gcl try and git-try.
@@ -42,7 +43,7 @@ integrate any code review functionality.
 - zsh-goodies: Completion for zsh users.
 
 %prep
-%setup -q -n depot_tools-svn%{snap}
+%setup -q -n %{name}-svn%{snap}
 find . -type d -name .svn -exec rm -rf {} \; || true
 
 # python 2.4 components
