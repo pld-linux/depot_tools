@@ -1,5 +1,5 @@
 %define		snap	20130619
-%define		rel		0.5
+%define		rel		0.6
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1
@@ -46,6 +46,12 @@ development process. It contains the following utilities:
 mv depot_tools/* .
 rm -r depot_tools
 
+cat > py-wrap.sh <<'EOF'
+#!/bin/sh
+exec %{__python} -B %{_datadir}/%{name}/$(basename "$0").py "$@"
+EOF
+chmod +x *.sh
+
 # python 2.4 components
 rm -r third_party/pymox
 rm cpplint.py
@@ -64,17 +70,14 @@ rm -r bootstrap
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
+install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_bindir}}
 cp -a . $RPM_BUILD_ROOT%{_datadir}/%{name}
 # already in %doc
 rm $RPM_BUILD_ROOT%{_datadir}/%{name}/{LICENSE,README*}
 
-install -d $RPM_BUILD_ROOT%{_bindir}
-cat > $RPM_BUILD_ROOT%{_bindir}/gclient <<'EOF'
-#!/bin/sh
-%{_datadir}/%{name}/gclient "$@"
-EOF
-chmod +x $RPM_BUILD_ROOT%{_bindir}/gclient
+for a in gclient gcl git-cl; do
+	ln -s %{_datadir}/%{name}/py-wrap.sh $RPM_BUILD_ROOT%{_bindir}/$a
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -82,7 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE README README.gclient
+%attr(755,root,root) %{_bindir}/gcl
 %attr(755,root,root) %{_bindir}/gclient
+%attr(755,root,root) %{_bindir}/git-cl
 %dir %{_datadir}/%{name}
 %attr(755,root,root) %{_datadir}/%{name}/apply_issue
 %attr(755,root,root) %{_datadir}/%{name}/cbuildbot
@@ -106,6 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_datadir}/%{name}/git-runhooks
 %attr(755,root,root) %{_datadir}/%{name}/git-try
 %attr(755,root,root) %{_datadir}/%{name}/hammer
+%attr(755,root,root) %{_datadir}/%{name}/py-wrap.sh
 %attr(755,root,root) %{_datadir}/%{name}/pylint
 %attr(755,root,root) %{_datadir}/%{name}/pylintrc
 %attr(755,root,root) %{_datadir}/%{name}/repo
