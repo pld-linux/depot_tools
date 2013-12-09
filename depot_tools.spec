@@ -1,5 +1,5 @@
 %define		snap	20130619
-%define		rel		0.3
+%define		rel		0.4
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1
@@ -48,6 +48,10 @@ rm -r depot_tools
 # python 2.4 components
 rm -r third_party/pymox
 rm cpplint.py
+
+# screw binaries and shipped dependencies and things useless to this platform
+rm ninja*
+find -type f '(' -name '*.exe' -o -name '*.bat' ')' | xargs rm -v
 
 %install
 rm -rf $RPM_BUILD_ROOT
