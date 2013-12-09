@@ -1,5 +1,5 @@
 %define		snap	20130619
-%define		rel		0.4
+%define		rel		0.5
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1
@@ -11,6 +11,7 @@ Source0:	https://src.chromium.org/svn/trunk/tools/depot_tools.zip?/%{name}-svn%{
 URL:		http://dev.chromium.org/developers/how-tos/depottools
 BuildRequires:	unzip
 Requires:	python
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -52,11 +53,22 @@ rm cpplint.py
 # screw binaries and shipped dependencies and things useless to this platform
 rm ninja*
 find -type f '(' -name '*.exe' -o -name '*.bat' ')' | xargs rm -v
+rm create-ntfs-junction.c
+
+# tests
+rm -r testing_support
+rm -r tests
+
+# other junk
+rm -r bootstrap
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -a . $RPM_BUILD_ROOT%{_datadir}/%{name}
+# already in %doc
+rm $RPM_BUILD_ROOT%{_datadir}/%{name}/{LICENSE,README*}
+
 install -d $RPM_BUILD_ROOT%{_bindir}
 cat > $RPM_BUILD_ROOT%{_bindir}/gclient <<'EOF'
 #!/bin/sh
@@ -72,4 +84,40 @@ rm -rf $RPM_BUILD_ROOT
 %doc LICENSE README README.gclient
 %attr(755,root,root) %{_bindir}/gclient
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/*
+%attr(755,root,root) %{_datadir}/%{name}/apply_issue
+%attr(755,root,root) %{_datadir}/%{name}/cbuildbot
+%attr(755,root,root) %{_datadir}/%{name}/chrome_set_ver
+%attr(755,root,root) %{_datadir}/%{name}/codereview.settings
+%attr(755,root,root) %{_datadir}/%{name}/create-chromium-git-src
+%attr(755,root,root) %{_datadir}/%{name}/cros
+%attr(755,root,root) %{_datadir}/%{name}/cros_sdk
+%attr(755,root,root) %{_datadir}/%{name}/crup-runner.sh
+%attr(755,root,root) %{_datadir}/%{name}/download_from_google_storage
+%attr(755,root,root) %{_datadir}/%{name}/drover
+%attr(755,root,root) %{_datadir}/%{name}/fetch
+%attr(755,root,root) %{_datadir}/%{name}/gcl
+%attr(755,root,root) %{_datadir}/%{name}/gclient
+%attr(755,root,root) %{_datadir}/%{name}/git-cl
+%attr(755,root,root) %{_datadir}/%{name}/git-cl-upload-hook
+%attr(755,root,root) %{_datadir}/%{name}/git-crsync
+%attr(755,root,root) %{_datadir}/%{name}/git-crup
+%attr(755,root,root) %{_datadir}/%{name}/git-gs
+%attr(755,root,root) %{_datadir}/%{name}/git-lkgr
+%attr(755,root,root) %{_datadir}/%{name}/git-runhooks
+%attr(755,root,root) %{_datadir}/%{name}/git-try
+%attr(755,root,root) %{_datadir}/%{name}/hammer
+%attr(755,root,root) %{_datadir}/%{name}/pylint
+%attr(755,root,root) %{_datadir}/%{name}/pylintrc
+%attr(755,root,root) %{_datadir}/%{name}/repo
+%attr(755,root,root) %{_datadir}/%{name}/update_depot_tools
+%attr(755,root,root) %{_datadir}/%{name}/weekly
+%attr(755,root,root) %{_datadir}/%{name}/wtf
+
+%{_datadir}/%{name}/*.py
+%{_datadir}/%{name}/profile.xml
+%{_datadir}/%{name}/git-templates/
+%{_datadir}/%{name}/git_utils/
+%{_datadir}/%{name}/recipes/
+%{_datadir}/%{name}/support/
+%{_datadir}/%{name}/third_party/
+%{_datadir}/%{name}/zsh-goodies/
