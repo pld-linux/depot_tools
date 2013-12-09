@@ -1,17 +1,15 @@
-%define		snap	20101127
-%define		rel		0.1
+%define		snap	20130619
+%define		rel		0.3
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1
 Release:	0.%{snap}.%{rel}
 License:	BSD
 Group:		Development/Tools
-# svn co http://src.chromium.org/svn/trunk/tools/depot_tools
-# mv depot_tools/ depot_tools-svn20101127
-# tar cjvf ../SOURCES/depot_tools-svn20101127.tar.bz2
-Source0:	http://src.chromium.org/%{name}-svn%{snap}.tar.bz2
-# Source0-md5:	055bda1558ed3411e95dddcdd2575f11
+Source0:	https://src.chromium.org/svn/trunk/tools/depot_tools.zip?/%{name}-svn%{snap}.zip
+# Source0-md5:	6cf6483d6da8d15848cbaa8857aae3ae
 URL:		http://dev.chromium.org/developers/how-tos/depottools
+BuildRequires:	unzip
 Requires:	python
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -43,12 +41,13 @@ development process. It contains the following utilities:
 - zsh-goodies: Completion for zsh users.
 
 %prep
-%setup -q -n %{name}-svn%{snap}
-find . -type d -name .svn -exec rm -rf {} \; || true
+%setup -qc
+mv depot_tools/* .
+rm -r depot_tools
 
 # python 2.4 components
-rm -rf third_party/pymox
-rm -rf cpplint.py
+rm -r third_party/pymox
+rm cpplint.py
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -68,5 +67,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc LICENSE README README.gclient
 %attr(755,root,root) %{_bindir}/gclient
-%dir %{_datadir}/depot_tools
-%{_datadir}/depot_tools/*
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/*
