@@ -55,7 +55,6 @@ ln -s git_cl.py git-cl.py
 
 # python 2.4 components
 rm -r third_party/pymox
-rm cpplint.py
 
 # screw binaries and shipped dependencies and things useless to this platform
 rm ninja*
