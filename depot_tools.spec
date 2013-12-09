@@ -1,5 +1,5 @@
 %define		snap	20130619
-%define		rel		0.6
+%define		rel		0.8
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1
@@ -51,6 +51,7 @@ cat > py-wrap.sh <<'EOF'
 exec %{__python} -B %{_datadir}/%{name}/$(basename "$0").py "$@"
 EOF
 chmod +x *.sh
+ln -s git_cl.py git-cl.py
 
 # python 2.4 components
 rm -r third_party/pymox
