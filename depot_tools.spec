@@ -1,16 +1,17 @@
-%define		snap	20130619
-%define		rel		0.10
+%define		subver	20131210
+%define		rel		0.11
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1
-Release:	0.%{snap}.%{rel}
+Release:	0.%{subver}.%{rel}
 License:	BSD
 Group:		Development/Tools
-Source0:	https://src.chromium.org/svn/trunk/tools/depot_tools.zip?/%{name}-svn%{snap}.zip
-# Source0-md5:	6cf6483d6da8d15848cbaa8857aae3ae
-Patch0:	adjust-path.patch
+Source0:	%{name}-%{subver}-aeab41a.tar.xz
+# Source0-md5:	5dd469c8ec03d03d48b7db886475bbfa
+Patch0:		adjust-path.patch
 URL:		http://dev.chromium.org/developers/how-tos/depottools
-BuildRequires:	unzip
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 Requires:	python
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -43,9 +44,7 @@ development process. It contains the following utilities:
 - zsh-goodies: Completion for zsh users.
 
 %prep
-%setup -qc
-mv depot_tools/* .
-rm -r depot_tools
+%setup -qn %{name}-%{subver}
 %patch0 -p1
 
 cat > py-wrap.sh <<'EOF'
@@ -67,8 +66,10 @@ rm create-ntfs-junction.c
 rm -r testing_support
 rm -r tests
 
-# other junk
+# other irrelevant junk
 rm -r bootstrap
+rm .gitignore
+rm OWNERS WATCHLISTS
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -76,7 +77,6 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_bindir}}
 cp -a . $RPM_BUILD_ROOT%{_datadir}/%{name}
 # already in %doc
 rm $RPM_BUILD_ROOT%{_datadir}/%{name}/{LICENSE,README*}
-rm $RPM_BUILD_ROOT%{_datadir}/%{name}/{OWNERS,WATCHLISTS}
 
 for a in gclient gcl git-cl fetch; do
 	ln -s %{_datadir}/%{name}/py-wrap.sh $RPM_BUILD_ROOT%{_bindir}/$a
@@ -112,8 +112,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_datadir}/%{name}/git-crup
 %attr(755,root,root) %{_datadir}/%{name}/git-gs
 %attr(755,root,root) %{_datadir}/%{name}/git-lkgr
+%attr(755,root,root) %{_datadir}/%{name}/git-number
 %attr(755,root,root) %{_datadir}/%{name}/git-runhooks
 %attr(755,root,root) %{_datadir}/%{name}/git-try
+%attr(755,root,root) %{_datadir}/%{name}/gn
 %attr(755,root,root) %{_datadir}/%{name}/hammer
 %attr(755,root,root) %{_datadir}/%{name}/py-wrap.sh
 %attr(755,root,root) %{_datadir}/%{name}/pylint
