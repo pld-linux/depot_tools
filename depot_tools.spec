@@ -1,5 +1,5 @@
 %define		snap	20130619
-%define		rel		0.8
+%define		rel		0.9
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1
@@ -75,7 +75,7 @@ cp -a . $RPM_BUILD_ROOT%{_datadir}/%{name}
 # already in %doc
 rm $RPM_BUILD_ROOT%{_datadir}/%{name}/{LICENSE,README*}
 
-for a in gclient gcl git-cl; do
+for a in gclient gcl git-cl fetch; do
 	ln -s %{_datadir}/%{name}/py-wrap.sh $RPM_BUILD_ROOT%{_bindir}/$a
 done
 
@@ -88,6 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gcl
 %attr(755,root,root) %{_bindir}/gclient
 %attr(755,root,root) %{_bindir}/git-cl
+%attr(755,root,root) %{_bindir}/fetch
 %dir %{_datadir}/%{name}
 %attr(755,root,root) %{_datadir}/%{name}/apply_issue
 %attr(755,root,root) %{_datadir}/%{name}/cbuildbot
