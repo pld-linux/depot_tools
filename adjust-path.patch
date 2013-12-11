@@ -1,0 +1,11 @@
+--- depot_tools-0.1/fetch.py~	2013-06-19 17:56:10.000000000 +0300
++++ depot_tools-0.1/fetch.py	2013-12-11 21:22:06.260143708 +0200
+@@ -29,6 +29,8 @@
+ 
+ SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
+ 
++# insert it into $PATH, so wouldn't need to put all interanl bins to $PATH, like download_from_google_storage
++os.environ['PATH'] += os.pathsep + SCRIPT_PATH
+ 
+ #################################################
+ # Checkout class definitions.

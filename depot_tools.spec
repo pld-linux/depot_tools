@@ -1,5 +1,5 @@
 %define		snap	20130619
-%define		rel		0.9
+%define		rel		0.10
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1
@@ -8,6 +8,7 @@ License:	BSD
 Group:		Development/Tools
 Source0:	https://src.chromium.org/svn/trunk/tools/depot_tools.zip?/%{name}-svn%{snap}.zip
 # Source0-md5:	6cf6483d6da8d15848cbaa8857aae3ae
+Patch0:	adjust-path.patch
 URL:		http://dev.chromium.org/developers/how-tos/depottools
 BuildRequires:	unzip
 Requires:	python
@@ -45,6 +46,7 @@ development process. It contains the following utilities:
 %setup -qc
 mv depot_tools/* .
 rm -r depot_tools
+%patch0 -p1
 
 cat > py-wrap.sh <<'EOF'
 #!/bin/sh
