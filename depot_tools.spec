@@ -1,5 +1,5 @@
 %define		subver	20131210
-%define		rel		0.11
+%define		rel		0.12
 Summary:	A package of scripts called used to manage checkouts and code reviews
 Name:		depot_tools
 Version:	0.1

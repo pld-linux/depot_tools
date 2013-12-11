@@ -4,8 +4,19 @@
  
  SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
  
-+# insert it into $PATH, so wouldn't need to put all interanl bins to $PATH, like download_from_google_storage
++# insert it into $PATH, so wouldn't need to put all internal bins to $PATH, like download_from_google_storage
 +os.environ['PATH'] += os.pathsep + SCRIPT_PATH
  
  #################################################
  # Checkout class definitions.
+--- depot_tools-20131210/gclient.py~	2013-12-10 22:01:22.000000000 +0200
++++ depot_tools-20131210/gclient.py	2013-12-11 23:30:04.595762844 +0200
+@@ -102,6 +102,8 @@
+ import subprocess2
+ from third_party import colorama
+ 
++# insert current script dir into $PATH, so wouldn't need to put all internal bins to $PATH, like download_from_google_storage
++os.environ['PATH'] += os.pathsep + os.path.dirname(os.path.abspath(__file__))
+ 
+ class GClientKeywords(object):
+   class FromImpl(object):
