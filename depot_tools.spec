@@ -76,6 +76,7 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/%{name},%{_bindir}}
 cp -a . $RPM_BUILD_ROOT%{_datadir}/%{name}
 # already in %doc
 rm $RPM_BUILD_ROOT%{_datadir}/%{name}/{LICENSE,README*}
+rm $RPM_BUILD_ROOT%{_datadir}/%{name}/{OWNERS,WATCHLISTS}
 
 for a in gclient gcl git-cl fetch; do
 	ln -s %{_datadir}/%{name}/py-wrap.sh $RPM_BUILD_ROOT%{_bindir}/$a
