@@ -13,6 +13,7 @@ URL:		http://dev.chromium.org/developers/how-tos/depottools
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	python
+Obsoletes:	gclient
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
