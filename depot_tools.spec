@@ -46,7 +46,7 @@ development process. It contains the following utilities:
 
 %prep
 %setup -qn %{name}-%{subver}
-%patch0 -p1
+%patch -P0 -p1
 
 cat > py-wrap.sh <<'EOF'
 #!/bin/sh
